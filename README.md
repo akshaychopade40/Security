@@ -3,34 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security </title>
-    <style>
+    <title>User Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>User Management System</h1>
+        
+            <form id="registration Form">
+            <h2>Register User</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <!-- User List -->
+        <div id="userList">
+            <h1>Login</h1>
+        
+        <!-- Login Form -->
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+
+            <style>
         body {
             font-family: Arial, sans-serif;
             margin: 50px;
         }
-        .auth-form {
-            max-width: 300px;
+        form {
+            max-width: 400px;
             margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
+        label, input, select, button {
             display: block;
-            margin-bottom: 5px;
-        }
-        input {
             width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+            margin-bottom: 10px;
         }
         button {
-            width: 100%;
-            padding: 8px;
             background-color: #4CAF50;
             color: white;
             border: none;
+            padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
@@ -39,51 +65,23 @@
     </style>
 </head>
 <body>
-
-<div class="auth-form">
-    <h1>Login</h1>
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" required>
+    <div class="payment-form">
+        <h2>Payment Details</h2>
+        <form action="/process_payment" method="POST" id="payment-form">
+            <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="form-group">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+            </div>
+            <button type="submit" class="pay-now">Pay Now</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" required>
-    </div>
-    <button type="button" onclick="login()">Login</button>
-</div>
-
-<script>
-    async function login() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        const hashedPassword = await hashPassword(password);
-
-        const response = await fetch('https://your-backend-url.onrender.com/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password: hashedPassword })
-        });
-
-        const result = await response.json();
-        if (result.success) {
-            alert('Login successful!');
-        } else {
-            alert('Login failed: ' + result.message);
-        }
-    }
-
-    async function hashPassword(password) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-</script>
-
 </body>
-</html>
+</html> 
